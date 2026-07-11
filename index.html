@@ -1,594 +1,812 @@
-
-    
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JOMATRIS | Premium Streetwear Inspired by the Culture </title>
-<meta name="description"
- content="Jomatris is a modern streetwear brand inspired by the culture.Shop Premium T-shirts built for comfort">
-<meta name="keywords"
- content="Jomatris, streetwear Namibia,Brands Namibia">
-<meta property="og.title"
- content="Jomatris">
-<meta property="og:description"
- content="Premium Streetwear.Inspired by the Culture">
-<meta property="og:image"
- content="images/hero1.jpg">
-<meta property="og:url"
- content="https://yourwebsite.com">
-<meta property="og:type"
- content="website">
-
-<!-- Google Font -->
+<title>JOMATRIS | Premium Streetwear Inspired by the Culture</title>
+<meta name="description" content="Jomatris is a modern streetwear brand inspired by the culture. Shop Premium T-shirts built for comfort">
+<meta property="og:title" content="Jomatris">
+<meta property="og:description" content="Premium Streetwear. Inspired by the Culture">
+<meta property="og:image" content="images/hero1.jpg">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="images/favicon.png">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 
 <style>
-/* ===== Global ===== */
+/* ===== Reset ===== */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 html{scroll-behavior:smooth;}
-body{background:#0f0f0f;color:white;}
+body{background:#0a0a0a;color:white;overflow-x:hidden;}
+
+/* ===== Loader ===== */
+#loader{position:fixed;inset:0;background:#0a0a0a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity 0.7s ease,visibility 0.7s ease;}
+#loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-logo{font-size:1.4rem;font-weight:900;letter-spacing:8px;text-transform:uppercase;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards;}
+.loader-bar-wrap{width:100px;height:1px;background:#1e1e1e;overflow:hidden;}
+.loader-bar{height:100%;width:0%;background:#fff;animation:loaderBar 1.3s cubic-bezier(0.4,0,0.2,1) 0.5s forwards;}
+.loader-sub{font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;color:#333;opacity:0;animation:fadeUp 0.7s ease 0.3s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@keyframes loaderBar{to{width:100%;}}
+
+/* ===== Ticker ===== */
+.announcement-bar{background:#fff;color:#000;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;overflow:hidden;white-space:nowrap;height:32px;display:flex;align-items:center;}
+.ticker-track{display:inline-flex;animation:ticker 25s linear infinite;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{padding:0 50px;display:inline-flex;align-items:center;gap:12px;}
+.ticker-sep{font-size:0.5rem;opacity:0.4;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ===== Top Bar ===== */
+.top-bar{width:100%;background:#0f0f0f;border-bottom:1px solid #141414;display:flex;justify-content:space-between;padding:7px 48px;font-size:0.72rem;color:#444;}
+.top-bar a{color:#444;text-decoration:none;margin-right:16px;transition:color 0.2s;letter-spacing:0.5px;}
+.top-bar a:hover{color:#aaa;}
+.top-bar-left a:last-child,.top-bar-right a:last-child{margin-right:0;}
 
 /* ===== Navbar ===== */
-.top-bar {
-  width: 100%;
-  background: #111; /* slightly darker than navbar */
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 40px;
-  font-size: 0.8rem;
-  color: #aaa;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  position: relative;
-  z-index: 1001;
-}
-.top-bar a {
-  color: #aaa;
-  text-decoration: none;
-  margin-right: 15px;
-  transition: color 0.2s;
-  cursor: pointer;
-}
+.navbar{height:68px;position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:0 48px;border-bottom:1px solid #141414;background:rgba(10,10,10,0.88);backdrop-filter:blur(18px);transition:background 0.3s ease,border-color 0.3s ease;}
+.navbar.scrolled{background:rgba(10,10,10,0.98);border-color:#1a1a1a;}
+.nav-left,.nav-right{display:flex;align-items:center;gap:22px;}
+.hamburger{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:#888;padding:0;transition:color 0.2s;}
+.hamburger:hover{color:#fff;}
+.hamburger svg{width:20px;height:20px;stroke-width:1.5;}
+.logo img{width:140px;height:120px;object-fit:contain;}
+.search-box{display:flex;align-items:center;gap:8px;background:#111;padding:7px 16px;border-radius:999px;border:1px solid #1e1e1e;transition:border-color 0.2s,background 0.2s;}
+.search-box:focus-within{border-color:#333;background:#161616;}
+.search-box input{background:transparent;border:none;outline:none;color:#ccc;width:130px;font-size:0.82rem;}
+.search-box input::placeholder{color:#444;}
+.search-box svg{width:14px;height:14px;stroke:#444;stroke-width:1.8;flex-shrink:0;}
+.nav-icon{text-decoration:none;color:#888;display:inline-flex;align-items:center;transition:color 0.2s;}
+.nav-icon:hover{color:#fff;}
+.nav-icon svg{width:19px;height:19px;stroke-width:1.5;}
+.cart-wrapper{position:relative;display:inline-flex;align-items:center;text-decoration:none;color:#888;transition:color 0.2s;}
+.cart-wrapper:hover{color:#fff;}
+.cart-wrapper svg{width:19px;height:19px;stroke-width:1.5;}
+.cart-badge{position:absolute;top:-7px;right:-9px;background:#e63946;color:#fff;font-size:0.6rem;font-weight:700;min-width:17px;height:17px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 3px;opacity:0;transform:scale(0.4);transition:opacity 0.2s,transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.cart-badge.visible{opacity:1;transform:scale(1);}
 
-.top-bar a:hover {
-  color: white;
-}
-
-.top-bar-left a:last-child,
-.top-bar-right a:last-child {
-  margin-right: 0;
-}
-
-.navbar{height: 70px;position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;border-bottom:1px solid #222;background:rgba(15,15,15,0.8);backdrop-filter:blur(10px);transition:padding 0.3s ease,background 0.3s ease;}
-.navbar.scrolled{padding:12px 40px;background:rgba(15,15,15,0.95);}
-.nav-left,.nav-right{display:flex;align-items:center;gap:20px;}
-.hamburger{display:flex;flex-direction:column;justify-content:space-between;width:25px;height:18px;cursor:pointer;}
-.hamburger div{height:3px;background:white;border-radius:2px;}
-.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.2rem;}
-.logo img{width: 150px;;height: 130px;}
-.search-box{display:flex;align-items:center;gap:6px;background:#000;padding:6px 10px;border-radius:20px;cursor: pointer;}
-.search-box input{background:transparent;border:none;outline:none;color:white;width:120px;}
-.nav-icon{text-decoration:none;font-size:1.2rem;cursor: pointer;}
-
-/* Mobile menu */
-.mobile-menu{position:fixed;top:0;left:-100%;width:70%;max-width:280px;height:100vh;background:#0f0f0f;padding:80px 24px;display:flex;flex-direction:column;gap:20px;transition:left 0.3s ease;z-index:1001;}
+/* ===== Mobile Menu ===== */
+.mobile-menu{position:fixed;top:0;left:-100%;width:72%;max-width:300px;height:100vh;background:#080808;padding:80px 28px 40px;display:flex;flex-direction:column;gap:6px;transition:left 0.38s cubic-bezier(0.4,0,0.2,1);z-index:1001;border-right:1px solid #141414;}
 .mobile-menu.active{left:0;}
-.mobile-menu a{color:white;text-decoration:none;font-size:1.1rem;}
-.menu-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,0.5);opacity:0;visibility:hidden;transition:opacity 0.3s ease;z-index:1000;}
+.mobile-menu a{color:#555;text-decoration:none;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;padding:12px 0;border-bottom:1px solid #111;transition:color 0.2s;}
+.mobile-menu a:hover{color:white;}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);opacity:0;visibility:hidden;transition:opacity 0.3s;z-index:1000;}
 .menu-overlay.active{opacity:1;visibility:visible;}
 
-/* ===== HERO SLIDER ===== */
-.hero{
-  height:80vh;
-  position:relative;
-  overflow:hidden;
-}
-
-.hero-slide{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  opacity:0;
-  transform:scale(1.05);
-  transition:opacity 1s ease, transform 1s ease;
-}
-
-/* dark dim overlay */
-.hero-slide::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.55);
-  z-index:1;
-}
-
-.hero-slide > *{
-  position:relative;
-  z-index:2;
-}
-
-.hero-slide.active{
-  opacity:1;
-  transform:scale(1);
-}
-
-.hero h1{font-size:3rem;letter-spacing:2px;}
-.hero p{margin:15px 0;color:#ddd;}
-
-.hero-btn{
-  padding:12px 30px;
-  text-decoration:none;
-  transition:transform 0.15s ease, box-shadow 0.15 ease;
-}
-
-button:active,
-.hero-btn:active {
-  transform: scale(0.96);
-}
-
+/* ===== Hero ===== */
+.hero{height:88vh;position:relative;overflow:hidden;}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;transform:scale(1.03);transition:opacity 1.2s ease,transform 1.2s ease;}
+.hero-slide::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.7) 100%);z-index:1;}
+.hero-slide>*{position:relative;z-index:2;}
+.hero-slide.active{opacity:1;transform:scale(1);}
+.hero-eyebrow{font-size:0.65rem;letter-spacing:6px;text-transform:uppercase;color:#888;margin-bottom:18px;font-weight:400;}
+.hero h1{font-size:clamp(2.6rem,6vw,5rem);letter-spacing:4px;text-transform:uppercase;font-weight:900;line-height:1.0;text-shadow:0 2px 40px rgba(0,0,0,0.5);}
+.hero-sub{margin:18px 0 36px;color:#aaa;font-size:0.88rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:300;}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.hero-btn{padding:14px 36px;text-decoration:none;font-size:0.75rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;transition:all 0.22s ease;display:inline-block;}
+.hero-btn:active{transform:scale(0.97);}
 .hero-btn.primary{background:white;color:black;}
-.hero-btn.primary:hover{background:#ddd;}
-.hero-btn.secondary{border:1px solid white;color:white;}
-.hero-btn.secondary:hover{background:white;color:black;}
+.hero-btn.primary:hover{background:#e8e8e8;}
+.hero-btn.secondary{border:1px solid rgba(255,255,255,0.4);color:white;}
+.hero-btn.secondary:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.7);}
+.hero-dots{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;}
+.hero-dot{width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,0.25);border:none;cursor:pointer;padding:0;transition:background 0.3s,width 0.35s cubic-bezier(0.4,0,0.2,1);}
+.hero-dot.active{background:white;width:24px;}
+.hero-scroll{position:absolute;bottom:32px;right:48px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:10;opacity:0.35;}
+.hero-scroll span{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,white,transparent);}
 
-.trust-bar {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 20px 40px;
-  background: #111;
-  border-top:1px solid #222;
-  font-size: 0.9rem;
-  color: #ccc;
-  flex-wrap: wrap;
-}
-
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer
-}
+/* ===== Trust Bar ===== */
+.trust-bar{display:flex;justify-content:center;gap:52px;padding:16px 40px;background:#0f0f0f;border-top:1px solid #141414;border-bottom:1px solid #141414;font-size:0.75rem;color:#555;flex-wrap:wrap;letter-spacing:0.5px;}
+.trust-item{display:flex;align-items:center;gap:8px;transition:color 0.2s;cursor:default;}
+.trust-item:hover{color:#999;}
+.trust-item svg{width:13px;height:13px;stroke:#444;stroke-width:1.8;flex-shrink:0;transition:stroke 0.2s;}
+.trust-item:hover svg{stroke:#777;}
 
 /* ===== Products ===== */
-.products{padding:80px 40px;}
-.section-title{text-align:center;font-size:2rem;margin-bottom:50px;}
-.product-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:20px;}
-.product-card{background:#151515;padding:20px;width:280px;border-radius:10px;text-align:center;transition:0.3s;}
-.product-card:hover{transform: scale(1.05);}
-.product-card img{width:100%;height:160px;object-fit:contain;background:#222;border-radius:8px;margin-bottom:12px;transition: transform 0.4s ease;}
-.price{color:#aaa;margin-bottom:15px;}
-.product-card button {cursor: pointer;transition: all 0.25s ease;}
-.product-card:hover img {transform: scale(1.08);}
-.product-card button:hover {background: #fff;color: #000;transform: translateY(-2px);}
-.product-card button:active {transform: scale(0.96);}
+.products{padding:110px 48px;}
+.section-eyebrow{text-align:center;font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:#444;margin-bottom:14px;}
+.section-title{text-align:center;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:64px;letter-spacing:2px;text-transform:uppercase;}
+#searchLabel{text-align:center;color:#555;font-size:0.78rem;letter-spacing:1px;margin-top:-48px;margin-bottom:36px;display:none;}
+#noResults{text-align:center;color:#333;font-size:0.88rem;padding:60px 0;display:none;letter-spacing:0.5px;}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));max-width:1240px;margin:0 auto;gap:20px;}
 
-/* quick view */
+/* ===== Product Card ===== */
+.product-card{background:#0f0f0f;border:1px solid #141414;border-radius:12px;overflow:hidden;text-align:left;transition:transform 0.35s ease,box-shadow 0.35s ease,border-color 0.35s ease;position:relative;opacity:0;transform:translateY(30px);}
+.product-card.in-view{opacity:1;transform:translateY(0);}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 24px 48px rgba(0,0,0,0.6);border-color:#222;}
+.product-badge{position:absolute;top:14px;left:14px;font-size:0.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;background:#fff;color:#000;z-index:3;}
+.product-badge.sold-out{background:#1a1a1a;color:#444;}
 
-.quick-view-btn {
-  margin-top: 10px;
-  background: transparent;
-  border: 1px solid #333;
-  color: #aaa;
-  padding: 8px;
-  cursor: pointer;
-  transition:  all 0.25s ease;
-}
+/* ===== Front / Back Flip ===== */
+.product-img-wrap{position:relative;overflow:hidden;background:#080808;aspect-ratio:1/1;perspective:1000px;}
 
-.quick-view-btn:hover {
-  background: #fff;
-  color: #000;
-}
+/* flip container — the thing that actually rotates */
+.img-flipper{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(0.4,0,0.2,1);}
+.product-card:hover .img-flipper{transform:rotateY(180deg);}
 
-.quick-view-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0,.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 2000;
-}
+.img-back,.img-front{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.img-back{transform:rotateY(0deg);}   /* visible by default */
+.img-front{transform:rotateY(180deg);} /* shown on hover  */
 
-.quick-view-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
+/* single-image cards — no flip, just scale */
+.img-single{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px;transition:transform 0.55s ease;}
+.product-card:hover .img-single{transform:scale(1.06);}
 
-.quick-view-modal{
-  background: #111;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 360px;
-  width: 90%;
-  text-align: center;
-  transform: scale(0.9);
-  transition: transform 0.3s ease;
-}
+/* subtle hover hint text */
+.flip-hint{position:absolute;bottom:10px;right:12px;font-size:0.52rem;letter-spacing:1.5px;text-transform:uppercase;color:#222;z-index:4;pointer-events:none;transition:color 0.4s;}
+.product-card:hover .flip-hint{color:#555;}
 
-.quick-view-overlay.active .quick-view-modal {
-  transform: scale(1);
-}
+.product-info{padding:16px 18px 18px;}
+.product-info h4{font-size:0.9rem;font-weight:600;margin-bottom:4px;letter-spacing:0.5px;color:#ddd;}
+.price{color:#555;font-size:0.85rem;margin-bottom:16px;font-weight:400;}
 
-.quick-view-modal img {
-  width: 100%;
-  margin-bottom: 15px;
-}
+/* Size selector */
+.size-selector{margin-bottom:14px;}
+.size-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.size-label{font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:#444;}
+.size-guide-link{font-size:0.62rem;color:#444;cursor:pointer;letter-spacing:0.5px;text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;background:none;border:none;font-family:'Poppins',sans-serif;}
+.size-guide-link:hover{color:#aaa;}
+.size-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.size-chip{background:transparent;border:1px solid #1e1e1e;color:#555;padding:5px 11px;font-size:0.68rem;font-weight:600;letter-spacing:0.5px;cursor:pointer;transition:all 0.18s ease;font-family:'Poppins',sans-serif;}
+.size-chip:hover:not(.unavailable){border-color:#444;color:#ccc;}
+.size-chip.selected{background:#fff;color:#000;border-color:#fff;}
+.size-chip.unavailable{opacity:0.2;cursor:not-allowed;text-decoration:line-through;}
 
-qv-close {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #aaa;
-}
+.product-actions{display:flex;flex-direction:column;gap:7px;}
+.add-to-cart-btn{background:#fff;color:#000;border:none;padding:12px;font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s ease;font-family:'Poppins',sans-serif;}
+.add-to-cart-btn:hover:not(:disabled){background:#e8e8e8;}
+.add-to-cart-btn:active:not(:disabled){transform:scale(0.98);}
+.add-to-cart-btn:disabled{background:#111;color:#333;border:1px solid #1a1a1a;cursor:not-allowed;}
+.quick-view-btn{background:transparent;border:1px solid #1a1a1a;color:#444;padding:10px;font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all 0.2s ease;font-family:'Poppins',sans-serif;}
+.quick-view-btn:hover{border-color:#333;color:#888;}
+.product-card.sold-out-card .img-back,.product-card.sold-out-card .img-single{filter:grayscale(60%);}
 
+/* ===== Size Guide Modal ===== */
+.size-guide-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:3000;}
+.size-guide-overlay.active{opacity:1;visibility:visible;}
+.size-guide-modal{background:#111;border:1px solid #1e1e1e;padding:36px;border-radius:12px;max-width:440px;width:90%;position:relative;transform:translateY(12px);transition:transform 0.3s ease;}
+.size-guide-overlay.active .size-guide-modal{transform:translateY(0);}
+.sg-close{position:absolute;top:14px;right:18px;font-size:1.3rem;cursor:pointer;color:#444;transition:color 0.2s;}
+.sg-close:hover{color:#fff;}
+.size-guide-modal h3{font-size:0.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.sg-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.sg-table th{text-align:left;padding:8px 12px;font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:#444;border-bottom:1px solid #1a1a1a;font-weight:600;}
+.sg-table td{padding:10px 12px;color:#888;border-bottom:1px solid #141414;}
+.sg-table tr:last-child td{border-bottom:none;}
+.sg-table tr:hover td{color:#ccc;}
+.sg-note{margin-top:16px;font-size:0.72rem;color:#333;line-height:1.6;}
 
-/* Scroll Reveal */
-.reveal{opacity:0;transform:translateY(60px);transition:0.8s;}
+/* ===== Editorial ===== */
+.editorial{display:grid;grid-template-columns:1fr 1fr;min-height:520px;border-top:1px solid #141414;border-bottom:1px solid #141414;}
+.editorial-image{background-size:cover;background-position:center;position:relative;min-height:380px;}
+.editorial-image::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,0.3),transparent);}
+.editorial-content{background:#080808;display:flex;flex-direction:column;justify-content:center;padding:70px 60px;}
+.editorial-eyebrow{font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;color:#444;margin-bottom:20px;}
+.editorial-content h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;line-height:1.05;margin-bottom:20px;}
+.editorial-content p{color:#555;font-size:0.88rem;line-height:1.8;max-width:380px;margin-bottom:36px;}
+.editorial-btn{display:inline-block;padding:13px 32px;background:#fff;color:#000;text-decoration:none;font-size:0.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;transition:background 0.2s;align-self:flex-start;}
+.editorial-btn:hover{background:#e8e8e8;}
+
+/* ===== Quick View ===== */
+.quick-view-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s ease;z-index:2000;}
+.quick-view-overlay.active{opacity:1;visibility:visible;}
+.quick-view-modal{background:#0f0f0f;border:1px solid #1e1e1e;padding:32px;border-radius:12px;max-width:400px;width:90%;text-align:left;position:relative;transform:scale(0.92) translateY(10px);transition:transform 0.3s cubic-bezier(0.34,1.3,0.64,1);}
+.quick-view-overlay.active .quick-view-modal{transform:scale(1) translateY(0);}
+.quick-view-modal img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#080808;border-radius:8px;margin-bottom:20px;padding:16px;}
+.qv-close{position:absolute;top:14px;right:16px;font-size:1.3rem;cursor:pointer;color:#333;transition:color 0.2s;}
+.qv-close:hover{color:#fff;}
+#qvTitle{font-size:1rem;font-weight:700;margin-bottom:4px;letter-spacing:0.5px;}
+#qvPrice{color:#555;font-size:0.85rem;margin-bottom:16px;}
+.qv-desc{color:#333;font-size:0.78rem;margin-bottom:18px;line-height:1.7;}
+.qv-sizes{margin-bottom:20px;}
+.qv-sizes .size-row{margin-bottom:10px;}
+.qv-add-btn{width:100%;padding:14px;background:#fff;color:#000;font-weight:700;font-size:0.72rem;letter-spacing:2.5px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;font-family:'Poppins',sans-serif;}
+.qv-add-btn:hover:not(:disabled){background:#e8e8e8;}
+.qv-add-btn:disabled{background:#111;color:#333;border:1px solid #1a1a1a;cursor:not-allowed;}
+
+/* ===== About ===== */
+.about{padding:110px 48px;background:#080808;border-top:1px solid #141414;}
+.about-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-text .section-eyebrow{text-align:left;margin-bottom:16px;}
+.about-text h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;letter-spacing:2px;text-transform:uppercase;line-height:1.1;margin-bottom:22px;}
+.about-text p{color:#555;line-height:1.9;font-size:0.88rem;margin-bottom:14px;}
+.about-stats{display:flex;gap:40px;margin-top:36px;padding-top:28px;border-top:1px solid #141414;}
+.stat-item{display:flex;flex-direction:column;gap:5px;}
+.stat-number{font-size:1.9rem;font-weight:900;letter-spacing:1px;}
+.stat-label{font-size:0.6rem;color:#444;letter-spacing:2px;text-transform:uppercase;}
+
+/* About visual — brand images */
+.about-visual{display:flex;flex-direction:column;gap:16px;align-items:center;}
+.about-brand-logo{width:100%;max-width:340px;object-fit:contain;filter:brightness(0.9);transition:filter 0.3s;}
+.about-brand-logo:hover{filter:brightness(1);}
+.about-studio-graphic{width:100%;max-width:340px;object-fit:contain;border-radius:10px;filter:brightness(0.75);transition:filter 0.3s;}
+.about-studio-graphic:hover{filter:brightness(0.95);}
+
+/* ===== Toast ===== */
+.toast{position:fixed;bottom:28px;right:28px;background:#111;border:1px solid #1e1e1e;color:#fff;padding:14px 16px;border-radius:10px;display:flex;align-items:center;gap:12px;z-index:9999;transform:translateX(120%);opacity:0;transition:transform 0.4s cubic-bezier(0.34,1.3,0.64,1),opacity 0.3s ease;pointer-events:none;min-width:240px;max-width:300px;}
+.toast.show{transform:translateX(0);opacity:1;}
+.toast-img{width:42px;height:42px;object-fit:contain;background:#080808;border-radius:6px;flex-shrink:0;}
+.toast-text{display:flex;flex-direction:column;gap:2px;flex:1;}
+.toast-title{font-weight:600;font-size:0.82rem;color:#ddd;}
+.toast-sub{color:#444;font-size:0.72rem;}
+.toast-check{color:#4caf50;flex-shrink:0;}
+.toast-check svg{width:17px;height:17px;stroke-width:2.5;}
+
+/* ===== Back to Top ===== */
+.back-to-top{position:fixed;bottom:28px;left:28px;width:38px;height:38px;background:#111;border:1px solid #1e1e1e;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(12px);transition:opacity 0.3s,transform 0.3s,background 0.2s;z-index:500;}
+.back-to-top.visible{opacity:1;transform:translateY(0);}
+.back-to-top:hover{background:#1a1a1a;border-color:#333;}
+.back-to-top svg{width:15px;height:15px;stroke:#666;stroke-width:2;}
+
+/* ===== Reveal ===== */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 0.85s ease,transform 0.85s ease;}
 .reveal.active{opacity:1;transform:none;}
 
-@media(max-width:768px){.search-box{display:none;}}
-@media(max-width:480px){.hero h1{font-size:1.8rem;}}
+/* ===== Footer ===== */
+.footer{background:#060606;padding:80px 48px 28px;border-top:1px solid #111;}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.8fr 1fr 1fr 1.2fr;gap:48px;}
+.footer-brand h3{margin-bottom:12px;font-size:0.85rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;}
+.footer-brand p{color:#333;font-size:0.8rem;line-height:1.8;margin-bottom:22px;}
+.footer-social{display:flex;gap:16px;}
+.footer-social a{color:#333;text-decoration:none;transition:color 0.2s;}
+.footer-social a:hover{color:#888;}
+.footer-social svg{width:17px;height:17px;stroke-width:1.5;}
+.footer-links h4{margin-bottom:20px;font-size:0.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#333;}
+.footer-links a{color:#333;text-decoration:none;margin-bottom:13px;font-size:0.8rem;display:block;transition:color 0.2s;}
+.footer-links a:hover{color:#888;}
+.footer-newsletter p{color:#333;font-size:0.78rem;margin-bottom:16px;line-height:1.7;}
+.newsletter-form{display:flex;}
+.newsletter-form input{flex:1;background:#0f0f0f;border:1px solid #1a1a1a;border-right:none;color:#ccc;padding:11px 16px;font-size:0.78rem;outline:none;transition:border-color 0.2s;font-family:'Poppins',sans-serif;}
+.newsletter-form input:focus{border-color:#2a2a2a;}
+.newsletter-form input::placeholder{color:#2a2a2a;}
+.newsletter-form button{background:#fff;color:#000;border:none;padding:11px 18px;font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;font-family:'Poppins',sans-serif;white-space:nowrap;}
+.newsletter-form button:hover{background:#ddd;}
+.newsletter-success{font-size:0.72rem;color:#4caf50;margin-top:10px;letter-spacing:0.5px;display:none;}
+.footer-divider{max-width:1200px;margin:52px auto 20px;border:none;border-top:1px solid #111;}
+.footer-bottom{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:0.7rem;color:#2a2a2a;letter-spacing:0.5px;flex-wrap:wrap;gap:10px;}
+.footer-bottom a{color:#2a2a2a;text-decoration:none;transition:color 0.2s;}
+.footer-bottom a:hover{color:#666;}
 
-
-.footer {
-  background: rgb(21, 20, 20); /* SAME as site background */
-  padding: 80px 40px 30px;
-}
-
-.footer-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 40px;
-}
-
-.footer-brand h3 {
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
-.footer-brand p {
-  color: #888;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.footer-links h4 {
-  margin-bottom: 16px;
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.footer-links a {
-  color: #b3b3b3;
-  text-decoration: none;
-  margin-bottom: 10px;
-  font-size: 0.95rem;
-  display: block;
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: #fff;
-}
-
-.footer-bottom {
-  text-align: center;
-  margin-top: 50px;
-  padding-top: 20px;
-  font-size: 0.85rem;
-  color: #777;
-}
-
+/* ===== Responsive ===== */
+@media(max-width:1024px){.editorial{grid-template-columns:1fr;}.editorial-image{min-height:300px;}.editorial-content{padding:56px 40px;}}
+@media(max-width:900px){.about-inner{grid-template-columns:1fr;gap:48px;}.footer-grid{grid-template-columns:1fr 1fr;}.footer-newsletter{grid-column:span 2;}}
+@media(max-width:768px){.search-box{display:none;}.hero h1{font-size:2.2rem;}.products{padding:80px 20px;}.about{padding:80px 20px;}.footer{padding:64px 20px 24px;}.footer-grid{grid-template-columns:1fr;}.footer-newsletter{grid-column:unset;}.trust-bar{gap:24px;padding:14px 20px;}.top-bar{display:none;}.navbar{padding:0 20px;}}
+@media(max-width:480px){.hero h1{font-size:1.8rem;}.hero-btn{padding:12px 24px;font-size:0.7rem;}.toast{right:16px;bottom:16px;}.back-to-top{left:16px;bottom:16px;}}
 </style>
 </head>
 
-<body> 
+<body id="top">
 
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-logo">Jomatris</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-sub">Premium Streetwear</div>
+</div>
 
-
-<!-- Navbar -->
-<div class="top-bar">
-  <div class="top-bar-left">
-    <a href="#">Terms & Conditions</a>
-    <a href="#">Privacy Policy</a>
-  </div>
-  <div class="top-bar-right">
-    <a href="#">Support</a>
-    <a href="#">FAQ</a>
+<!-- Ticker -->
+<div class="announcement-bar">
+  <div class="ticker-track">
+    <span class="ticker-item">Free delivery on orders over N$800 <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">New drop live now — limited stock <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Built in Namibia · Worn everywhere <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Easy returns within 14 days <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Free delivery on orders over N$800 <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">New drop live now — limited stock <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Built in Namibia · Worn everywhere <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Easy returns within 14 days <span class="ticker-sep">✦</span></span>
   </div>
 </div>
 
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-left"><a href="#">Terms & Conditions</a><a href="#">Privacy Policy</a></div>
+  <div class="top-bar-right"><a href="#">Support</a><a href="#">FAQ</a></div>
+</div>
+
+<!-- Navbar -->
 <nav class="navbar">
   <div class="nav-left">
-    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-    <div class="logo"><img src="images/j-logo.png"><span></span></div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><i data-lucide="menu"></i></button>
+    <a href="#top"><div class="logo"><img src="images/j-logo.png" alt="Jomatris"></div></a>
   </div>
   <div class="nav-right">
-    <div class="search-box"><input placeholder="Search"><span>🔍︎</span></div>
-    <a href="mailto:maxpulenge123@gmail.com" class="nav-icon">📧</a>
-    <a href="tel:+264814149332" class="nav-icon">📞</a>
-    <a href="cart.html" class="nav-icon cart">🛒</a>
+    <div class="search-box"><i data-lucide="search"></i><input placeholder="Search products…" aria-label="Search" id="searchInput"></div>
+    <a href="mailto:maxpulenge123@gmail.com" class="nav-icon" aria-label="Email"><i data-lucide="mail"></i></a>
+    <a href="tel:+264814149332" class="nav-icon" aria-label="Call"><i data-lucide="phone"></i></a>
+    <a href="cart.html" class="cart-wrapper" id="cartLink" aria-label="Cart">
+      <i data-lucide="shopping-bag"></i>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </a>
   </div>
 </nav>
 
 <!-- Mobile Menu -->
-<body id="top"> 
 <div class="mobile-menu" id="mobileMenu">
   <a href="#top">Home</a>
   <a href="#products">Shop</a>
-  <a href="#Jomatris">About</a>
+  <a href="#about">About</a>
 </div>
 <div class="menu-overlay" id="menuOverlay"></div>
 
-
-<!-- HERO -->
-<section class="hero">
+<!-- Hero -->
+<section class="hero" id="hero">
   <div class="hero-slide active" style="background-image:url('images/hero1.jpg')">
-    <h1>NEW DROP</h1>
-    <p>Special Jomatris Football Jersey</p>
-    <a href="#products" class="hero-btn primary">Shop Now</a>
+    <p class="hero-eyebrow">New Arrival — 2026</p>
+    <h1>New Drop</h1>
+    <p class="hero-sub">Special Jomatris Football Jersey</p>
+    <div class="hero-buttons">
+      <a href="#products" class="hero-btn primary">Shop Now</a>
+      <a href="#about" class="hero-btn secondary">Our Story</a>
+    </div>
   </div>
-
   <div class="hero-slide" style="background-image:url('images/hero2.jpg')">
-    <h1>MINIMAL. CLEAN.</h1>
-    <p>Black & White Collection</p>
-    <a href="#products" class="hero-btn secondary">Explore</a>
+    <p class="hero-eyebrow">Collection</p>
+    <h1>Minimal.<br>Clean.</h1>
+    <p class="hero-sub">Black & White Collection</p>
+    <div class="hero-buttons">
+      <a href="#products" class="hero-btn primary">Explore</a>
+    </div>
   </div>
-
   <div class="hero-slide" style="background-image:url('images/hero3.jpg')">
-    <h1>BUILT FOR EVERYDAY</h1>
-    <p>Streetwear Essentials</p>
-    <a href="#products" class="hero-btn secondary">View Collection</a>
+    <p class="hero-eyebrow">Everyday Wear</p>
+    <h1>Built For<br>Everyday</h1>
+    <p class="hero-sub">Streetwear Essentials</p>
+    <div class="hero-buttons">
+      <a href="#products" class="hero-btn primary">View Collection</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" data-index="0"></button>
+    <button class="hero-dot" data-index="1"></button>
+    <button class="hero-dot" data-index="2"></button>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- Trust Bar -->
+<section class="trust-bar">
+  <div class="trust-item"><i data-lucide="shield-check"></i> Secure Checkout</div>
+  <div class="trust-item"><i data-lucide="truck"></i> Nationwide Delivery</div>
+  <div class="trust-item"><i data-lucide="refresh-ccw"></i> Easy Returns</div>
+  <div class="trust-item"><i data-lucide="message-circle"></i> 24/7 Support</div>
+</section>
+
+<!-- Products -->
+<section class="products" id="products">
+  <p class="section-eyebrow">Latest Release</p>
+  <h3 class="section-title">Featured Drop</h3>
+  <p id="searchLabel"></p>
+  <div class="product-grid" id="productGrid"></div>
+  <p id="noResults">No products match your search.</p>
+</section>
+
+<!-- Editorial -->
+<section class="editorial reveal">
+  <div class="editorial-image" style="background-image:url('images/hero1.jpg')"></div>
+  <div class="editorial-content">
+    <p class="editorial-eyebrow">The Culture</p>
+    <h2>Worn by<br>Those Who<br>Move First</h2>
+    <p>Jomatris isn't just clothing. It's a statement. Every drop is designed for those who don't wait for trends — they set them.</p>
+    <a href="#products" class="editorial-btn">Shop the Drop</a>
   </div>
 </section>
 
-<section class="trust-bar">
-  <div class="trust-item"> Secure Checkout</div>
-  <div class="trust-item"> Nationwide Delivery</div>
-  <div class="trust-item"> Easy Returns</div>
-  <div class="trust-item"> 24/7 Support</div>
-</section>  
-
-<!-- Products -->
-<section class="products reveal" id="products">
-  <h3 class="section-title">Featured Drop</h3>
-  <div class="product-grid">
-    <div class="product-card">
-      <img src="images/jm pupl.png">
-      <h4>Purple Jomatris Tee</h4>
-      <p class="price">N$399</p>
-      <button class="add-to-cart-btn"
-        data-id="1"
-        data-name="Purple Jomatris Tee"
-        data-price="399"
-        data-image="images/jm puple.png">
-        Add to Cart
-      </button>
-      <button class="quick-view-btn">Quick View</button>
+<!-- About -->
+<section class="about reveal" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <p class="section-eyebrow">Who We Are</p>
+      <h2>Streetwear<br>Rooted in<br>the Culture</h2>
+      <p>Jomatris was built for those who move differently. Every piece is designed with intention — minimal where it counts, bold where it matters.</p>
+      <p>Inspired by football culture and the streets of Namibia, we create garments that don't just look good, they mean something.</p>
+      <div class="about-stats">
+        <div class="stat-item"><span class="stat-number">7+</span><span class="stat-label">Products</span></div>
+        <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Local</span></div>
+        <div class="stat-item"><span class="stat-number">NA</span><span class="stat-label">Made</span></div>
+      </div>
     </div>
-
-    <div class="product-card">
-      <img src="images/jm ftbl 1.png">
-      <h4>Football Special Jersey</h4>
-      <p class="price">N$399</p>
-      <button class="add-to-cart-btn"
-        data-id="2"
-        data-name="Football Special Jersey"
-        data-price="399"
-        data-image="images/jm ftbl 1.png">
-        Add to Cart
-      </button>
-      <button class="quick-view-btn">Quick View</button>
+    <!-- About visual now uses the new brand assets -->
+    <div class="about-visual">
+      <img src="images/jomatris_logo.png" alt="Jomatris Logo" class="about-brand-logo">
+      <img src="images/jomatris_studio_graphic_1.png" alt="Jomatris Studio" class="about-studio-graphic">
     </div>
-
-     <div class="product-card">
-      <img src="images/jm blck blu.png">
-      <h4>Black Jomatris Tee</h4>
-      <p class="price">N$399</p>
-      <button class="add-to-cart-btn"
-        data-id="3"
-        data-name="Black Jomatris Tee"
-        data-price="399"
-        data-image="images/jm blck blu.png">
-        Add to Cart
-      </button>
-      <button class="quick-view-btn">Quick View</button>
-    </div>
-
-     <div class="product-card">
-      <img src="images/jm ftbl.png">
-      <h4>Football Jersey Special</h4>
-      <p class="price">N$399</p>
-      <button class="add-to-cart-btn"
-        data-id="2"
-        data-name="Football Jersey Special "
-        data-price="399"
-        data-image="images/jm ftbl.png">
-        Add to Cart
-      </button>
-      <button class="quick-view-btn">Quick View</button>
-     </div>
-
-    <footer>
-  <div class="footer-grid">
-
-    <div class="quick-view-overlay"
-    id="quickViewOverlay">
-      <div class="quick-view-modal">
-        <span class="qv-close">&times</span>
-        <img id="qvImage">
-        <h3 id="qvTitle"></h3>
-        <p id="qvPrice"></p>
-        <p class="qv-desc">Premium cotton streetwear. Built for everyday.</p>
-        <button class="hero-btn primary">Add to cart</button>
-      </div> 
   </div>
+</section>
 
-
-
-    <!-- Brand -->
-    <div class="footer-brand">
-      <h3>JOMATRIS</h3>
-      <p>
-        Modern streetwear inspired by football culture and clean design.
-      </p>
+<!-- Quick View Overlay -->
+<div class="quick-view-overlay" id="quickViewOverlay">
+  <div class="quick-view-modal">
+    <span class="qv-close">&times;</span>
+    <img id="qvImage" alt="">
+    <h3 id="qvTitle"></h3>
+    <p id="qvPrice"></p>
+    <p class="qv-desc">Premium cotton streetwear. Built for everyday.</p>
+    <div class="qv-sizes" id="qvSizesSection">
+      <div class="size-row">
+        <span class="size-label">Select Size</span>
+        <button class="size-guide-link" id="qvSizeGuideBtn">Size Guide</button>
+      </div>
+      <div class="size-chips" id="qvSizeChips"></div>
     </div>
+    <button class="qv-add-btn" id="qvAddBtn" disabled>Select a Size</button>
+  </div>
+</div>
 
-    <!-- Shop -->
+<!-- Size Guide Modal -->
+<div class="size-guide-overlay" id="sizeGuideOverlay">
+  <div class="size-guide-modal">
+    <span class="sg-close" id="sgClose">&times;</span>
+    <h3>Size Guide</h3>
+    <table class="sg-table">
+      <thead><tr><th>Size</th><th>Chest (cm)</th><th>Length (cm)</th><th>Shoulder (cm)</th></tr></thead>
+      <tbody>
+        <tr><td>S</td><td>96–100</td><td>68</td><td>43</td></tr>
+        <tr><td>M</td><td>100–104</td><td>70</td><td>45</td></tr>
+        <tr><td>L</td><td>104–108</td><td>72</td><td>47</td></tr>
+        <tr><td>XL</td><td>108–114</td><td>74</td><td>49</td></tr>
+      </tbody>
+    </table>
+    <p class="sg-note">Measurements are approximate. If between sizes, we recommend sizing up for a relaxed fit.</p>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <img class="toast-img" id="toastImg" src="" alt="">
+  <div class="toast-text">
+    <span class="toast-title" id="toastTitle"></span>
+    <span class="toast-sub">Added to cart</span>
+  </div>
+  <span class="toast-check"><i data-lucide="check"></i></span>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i data-lucide="arrow-up"></i></button>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Jomatris</h3>
+      <p>Modern streetwear inspired by football culture and clean design. Built in Namibia, worn everywhere.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+        <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+        <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+      </div>
+    </div>
     <div class="footer-links">
       <h4>Shop</h4>
-      <a href="#">New Drops</a>
-      <a href="#">All Products</a>
+      <a href="#products">New Drops</a>
+      <a href="#products">All Products</a>
       <a href="#">Size Guide</a>
     </div>
-
-    <!-- Support -->
     <div class="footer-links">
       <h4>Support</h4>
       <a href="#">FAQ</a>
       <a href="#">Contact</a>
       <a href="#">Returns</a>
     </div>
-
-    <!-- Legal -->
-    <div class="footer-links">
-      <h4>Legal</h4>
-      <a href="#">Terms & Conditions</a>
-      <a href="#">Privacy Policy</a>
+    <div class="footer-links footer-newsletter">
+      <h4>Stay Updated</h4>
+      <p>Early access to drops and exclusive offers.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email" id="newsletterEmail">
+        <button type="button" id="newsletterBtn">Join</button>
+      </div>
+      <p class="newsletter-success" id="newsletterSuccess">✔ You're on the list.</p>
     </div>
-
   </div>
-
-  <!-- Bottom line -->
+  <hr class="footer-divider">
   <div class="footer-bottom">
-    © 2026 JOMATRIS. All rights reserved.
+    <span>© 2026 JOMATRIS. All rights reserved.</span>
+    <div style="display:flex;gap:24px;"><a href="#">Privacy Policy</a><a href="#">Terms & Conditions</a></div>
   </div>
 </footer>
 
-
-  </div>
-</section>
-
 <script>
-// Reveal
-const reveals=document.querySelectorAll(".reveal");
-window.addEventListener("scroll",()=>reveals.forEach(r=>{
-  if(r.getBoundingClientRect().top<window.innerHeight-100) r.classList.add("active");
-}));
+document.addEventListener('DOMContentLoaded', () => {
 
-// Navbar shrink
-const navbar=document.querySelector(".navbar");
-window.addEventListener("scroll",()=>navbar.classList.toggle("scrolled",window.scrollY>50));
+// =====================================================================
+// PRODUCTS CONFIG
+// imageFront: shown on hover  |  imageBack: shown by default
+// If no imageFront, card just scales on hover (no flip)
+// soldOut: true = fully sold out
+// sizes: available sizes only — missing sizes show as strikethrough
+// =====================================================================
+const PRODUCTS = [
+  {
+    id:'1', name:'Purple Jomatris Tee', price:399,
+    imageBack:'images/jm pupl.png', imageFront:null,
+    badge:'', soldOut:false, sizes:['S','M','L','XL']
+  },
+  {
+    id:'2', name:'Football Special Jersey', price:399,
+    imageBack:'images/jm ftbl 1.png', imageFront:null,
+    badge:'', soldOut:false, sizes:['S','M','L','XL']
+  },
+  {
+    id:'3', name:'Black Jomatris Tee', price:399,
+    imageBack:'images/jomatris_tee_black_back.png', imageFront:'images/jomatris_tee_black_front.png',
+    badge:'Limited', soldOut:false, sizes:['S','M','XL']
+  },
+  {
+    id:'4', name:'Brown Jomatris Tee', price:399,
+    imageBack:'images/jomatris_tee_brown_back.png', imageFront:'images/jomatris_tee_brown_front.png',
+    badge:'New', soldOut:false, sizes:['S','M','L','XL']
+  },
+  {
+    id:'5', name:'Red Jomatris Tee', price:399,
+    imageBack:'images/jomatris_tee_red_back.png', imageFront:'images/jomatris_tee_red_front.png',
+    badge:'New', soldOut:false, sizes:['S','M','L','XL']
+  },
+  {
+    id:'7', name:'Black Jomatris Hoodie', price:399,
+    imageBack:'images/jomatris_hoodie_black_back.png', imageFront:'images/jomatris_hoodie_black_front.png',
+    badge:'New', soldOut:false, sizes:[]
+  }
+];
 
-// Hamburger
-const hamburger=document.getElementById("hamburger");
-const menu=document.getElementById("mobileMenu");
-const overlay=document.getElementById("menuOverlay");
-hamburger.onclick=()=>{menu.classList.add("active");overlay.classList.add("active");}
-overlay.onclick=()=>{menu.classList.remove("active");overlay.classList.remove("active");}
+const ALL_SIZES = ['S','M','L','XL'];
 
-// Hero slider
-const slides=document.querySelectorAll(".hero-slide");
-let current=0;
-setInterval(()=>{
-  slides[current].classList.remove("active");
-  current=(current+1)%slides.length;
-  slides[current].classList.add("active");
-},4500);
+// ===== Render Products =====
+function renderProducts(list) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
 
-  const qvOverlay =
-  document.getElementById('quickViewOverlay');
-  const qvImage =
-  document.getElementById('qvImage');
-  const qvTitle =
-  document.getElementById('qvTitle');
-  const qvPrice = 
-  document.getElementById('qvPrice');
-  const qvClose = 
-  document.querySelector('.qv-close');
-  
-document.querySelectorAll('.quick-view-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-        const card = e.target.closest('.product-card');
-        qvImage.src = card.querySelector('img').src;
-        qvTitle.innerText = card.querySelector('h4').innerText;
-        qvPrice.innerText = card.querySelector('.price').innerText;
+  list.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'product-card' + (p.soldOut ? ' sold-out-card' : '');
+    card.dataset.productId = p.id;
+    card.style.transitionDelay = `${i * 70}ms`;
 
-        qvOverlay.classList.add('active');
+    const badgeHTML = p.badge
+      ? `<span class="product-badge${p.badge==='Sold Out'?' sold-out':''}">${p.badge}</span>`
+      : '';
+
+    // Front/back flip if imageFront exists, otherwise single image
+    const imgHTML = p.imageFront
+      ? `<div class="img-flipper">
+           <img class="img-back" src="${p.imageBack}" alt="${p.name} back" loading="lazy">
+           <img class="img-front" src="${p.imageFront}" alt="${p.name} front" loading="lazy">
+         </div>
+         <span class="flip-hint">Hover to flip</span>`
+      : `<img class="img-single" src="${p.imageBack}" alt="${p.name}" loading="lazy">`;
+
+    const sizeHTML = p.soldOut ? '' : `
+      <div class="size-selector">
+        <div class="size-row">
+          <span class="size-label">Select Size</span>
+          <button class="size-guide-link sg-trigger">Size Guide</button>
+        </div>
+        <div class="size-chips">
+          ${ALL_SIZES.map(s =>
+            `<button class="size-chip${p.sizes.includes(s)?'':' unavailable'}" data-size="${s}" ${p.sizes.includes(s)?'':'disabled'}>${s}</button>`
+          ).join('')}
+        </div>
+      </div>`;
+
+    const actionHTML = p.soldOut
+      ? `<button class="add-to-cart-btn" disabled>Sold Out</button>`
+      : `<button class="add-to-cart-btn" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-image="${p.imageBack}" disabled>Select a Size</button>`;
+
+    card.innerHTML = `
+      <div class="product-img-wrap">
+        ${badgeHTML}
+        ${imgHTML}
+      </div>
+      <div class="product-info">
+        <h4>${p.name}</h4>
+        <p class="price">N$${p.price}.00</p>
+        ${sizeHTML}
+        <div class="product-actions">
+          ${actionHTML}
+          <button class="quick-view-btn">Quick View</button>
+        </div>
+      </div>`;
+
+    grid.appendChild(card);
+  });
+
+  // Size chips
+  grid.querySelectorAll('.product-card:not(.sold-out-card)').forEach(card => {
+    const chips = card.querySelectorAll('.size-chip:not(.unavailable)');
+    const addBtn = card.querySelector('.add-to-cart-btn');
+    chips.forEach(chip => chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      addBtn.disabled = false;
+      addBtn.dataset.size = chip.dataset.size;
+      addBtn.innerText = 'Add to Cart';
+    }));
+  });
+
+  // Add to cart
+  grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      addToCart({ id:btn.dataset.id, name:btn.dataset.name, price:Number(btn.dataset.price), image:btn.dataset.image, size:btn.dataset.size||null, qty:1 });
+      btn.innerText = 'Added ✔';
+      setTimeout(() => { btn.innerText = 'Add to Cart'; }, 1300);
     });
   });
 
-qvClose.onclick = () =>
-qvOverlay.classList.remove('active');
-qvOverlay.onclick = e => {
-    if (e.target === qvOverlay)
-qvOverlay.classList.remove('active');    
-};
-
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCartCount();
-}
-
-function updateCartCount() {
-  const cartIcon = document.querySelector('.nav-icon.cart');
-  if (!cartIcon) return;
-
-  const count = cart.reduce((sum, item) => sum + item.qty, 0);
-  cartIcon.innerText = `🛒 ${count}`;
-}
-
-document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-
-    const product = {
-      id: btn.dataset.id,
-      name: btn.dataset.name,
-      price: Number(btn.dataset.price),
-      image: btn.dataset.image,
-      qty: 1
-    };
-
-    const existing = cart.find(item => item.id === product.id);
-
-    if (existing) {
-      existing.qty++;
-    } else {
-      cart.push(product);
-    }
-
-    saveCart();
-
-    btn.innerText = 'Added ✔';
-    setTimeout(() => {
-      btn.innerText = 'Add to Cart';
-    }, 1200);
-
+  // Quick view
+  grid.querySelectorAll('.quick-view-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const card = e.target.closest('.product-card');
+      const product = PRODUCTS.find(p => p.id === card.dataset.productId);
+      openQuickView(product);
+    });
   });
+
+  // Size guide on cards
+  grid.querySelectorAll('.sg-trigger').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); openSizeGuide(); });
+  });
+
+  // Staggered card reveal
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); cardObserver.unobserve(e.target); }});
+  }, { threshold: 0.08 });
+  grid.querySelectorAll('.product-card').forEach(c => cardObserver.observe(c));
+
+  lucide.createIcons();
+}
+
+// ===== Search =====
+const searchInput = document.getElementById('searchInput');
+const searchLabel = document.getElementById('searchLabel');
+const noResults = document.getElementById('noResults');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { renderProducts(PRODUCTS); searchLabel.style.display='none'; noResults.style.display='none'; return; }
+  const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(q));
+  renderProducts(filtered);
+  if (filtered.length > 0) {
+    searchLabel.textContent = `${filtered.length} result${filtered.length!==1?'s':''} for "${searchInput.value.trim()}"`;
+    searchLabel.style.display='block'; noResults.style.display='none';
+  } else {
+    searchLabel.style.display='none'; noResults.style.display='block';
+  }
+  document.getElementById('products').scrollIntoView({ behavior:'smooth', block:'start' });
+});
+searchInput.addEventListener('keydown', e => {
+  if (e.key==='Escape') { searchInput.value=''; searchInput.blur(); renderProducts(PRODUCTS); searchLabel.style.display='none'; noResults.style.display='none'; }
 });
 
-updateCartCount();
-</script>
+// ===== Size Guide =====
+const sizeGuideOverlay = document.getElementById('sizeGuideOverlay');
+function openSizeGuide() { sizeGuideOverlay.classList.add('active'); }
+document.getElementById('sgClose').onclick = () => sizeGuideOverlay.classList.remove('active');
+sizeGuideOverlay.onclick = e => { if(e.target===sizeGuideOverlay) sizeGuideOverlay.classList.remove('active'); };
+document.getElementById('qvSizeGuideBtn').addEventListener('click', openSizeGuide);
 
+// ===== Quick View =====
+const qvOverlay = document.getElementById('quickViewOverlay');
+const qvAddBtn = document.getElementById('qvAddBtn');
+const qvSizeChips = document.getElementById('qvSizeChips');
+const qvSizesSection = document.getElementById('qvSizesSection');
+let qvCurrentProduct = null;
+let qvSelectedSize = null;
+
+function openQuickView(product) {
+  // Show back image in QV (the default display image)
+  document.getElementById('qvImage').src = product.imageBack;
+  document.getElementById('qvTitle').innerText = product.name;
+  document.getElementById('qvPrice').innerText = `N$${product.price}.00`;
+  qvCurrentProduct = product; qvSelectedSize = null;
+
+  if (product.soldOut) {
+    qvSizesSection.style.display = 'none';
+    qvAddBtn.disabled = true; qvAddBtn.innerText = 'Sold Out';
+  } else {
+    qvSizesSection.style.display = 'block';
+    qvSizeChips.innerHTML = ALL_SIZES.map(s =>
+      `<button class="size-chip${product.sizes.includes(s)?'':' unavailable'}" data-size="${s}" ${product.sizes.includes(s)?'':'disabled'}>${s}</button>`
+    ).join('');
+    qvSizeChips.querySelectorAll('.size-chip:not(.unavailable)').forEach(chip => {
+      chip.addEventListener('click', () => {
+        qvSizeChips.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        qvSelectedSize = chip.dataset.size;
+        qvAddBtn.disabled = false; qvAddBtn.innerText = 'Add to Cart';
+      });
+    });
+    qvAddBtn.disabled = true; qvAddBtn.innerText = 'Select a Size';
+  }
+  qvOverlay.classList.add('active');
+}
+
+qvAddBtn.addEventListener('click', () => {
+  if (!qvCurrentProduct || qvAddBtn.disabled) return;
+  addToCart({ ...qvCurrentProduct, image:qvCurrentProduct.imageBack, size:qvSelectedSize, qty:1 });
+  qvAddBtn.innerText = 'Added ✔';
+  setTimeout(() => { qvAddBtn.innerText='Add to Cart'; qvOverlay.classList.remove('active'); }, 1000);
+});
+document.querySelector('.qv-close').onclick = () => qvOverlay.classList.remove('active');
+qvOverlay.onclick = e => { if(e.target===qvOverlay) qvOverlay.classList.remove('active'); };
+
+// ===== Cart =====
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); updateCartBadge(); }
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  if (!badge) return;
+  const count = cart.reduce((s,i) => s+i.qty, 0);
+  badge.textContent = count; badge.classList.toggle('visible', count>0);
+}
+let toastTimer = null;
+function showToast(name, image) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = name;
+  document.getElementById('toastImg').src = image;
+  toast.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+function addToCart(product) {
+  const cartId = product.id + '-' + (product.size||'OS');
+  const existing = cart.find(i => i.cartId===cartId);
+  existing ? existing.qty++ : cart.push({...product, cartId});
+  saveCart();
+  showToast(product.name + (product.size?' / '+product.size:''), product.image);
+}
+
+// ===== Newsletter =====
+document.getElementById('newsletterBtn').addEventListener('click', () => {
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email || !email.includes('@')) return;
+  document.getElementById('newsletterEmail').value = '';
+  document.getElementById('newsletterSuccess').style.display = 'block';
+  setTimeout(() => { document.getElementById('newsletterSuccess').style.display='none'; }, 4000);
+});
+
+// ===== Loader =====
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1700); });
+
+// ===== Reveal =====
+const revealObserver = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.reveal').forEach(r => revealObserver.observe(r));
+
+// ===== Navbar =====
+const navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
+
+// ===== Back to Top =====
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => backToTop.classList.toggle('visible', window.scrollY > 400));
+backToTop.onclick = () => window.scrollTo({ top:0, behavior:'smooth' });
+
+// ===== Hamburger =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+hamburger.onclick = () => { mobileMenu.classList.add('active'); menuOverlay.classList.add('active'); hamburger.innerHTML='<i data-lucide="x"></i>'; lucide.createIcons(); };
+menuOverlay.onclick = () => { mobileMenu.classList.remove('active'); menuOverlay.classList.remove('active'); hamburger.innerHTML='<i data-lucide="menu"></i>'; lucide.createIcons(); };
+
+// ===== Hero Slider =====
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+let current = 0;
+function goToSlide(i) { slides[current].classList.remove('active'); dots[current].classList.remove('active'); current=i; slides[current].classList.add('active'); dots[current].classList.add('active'); }
+dots.forEach(d => d.addEventListener('click', () => goToSlide(Number(d.dataset.index))));
+setInterval(() => goToSlide((current+1)%slides.length), 4500);
+
+// ===== Init =====
+renderProducts(PRODUCTS);
+updateCartBadge();
+lucide.createIcons();
+
+}); // end DOMContentLoaded
+</script>
 </body>
 </html>
