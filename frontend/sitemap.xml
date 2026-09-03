@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TODO: replace "https://your-real-domain.com" below with your actual deployed
+  domain before submitting this to Google Search Console / Bing Webmaster
+  Tools. Leaving a placeholder domain in a live sitemap will just get ignored
+  or, worse, tell search engines your content lives somewhere it doesn't.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://your-real-domain.com/index.html</loc><priority>1.0</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jmts-cream-brown-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jmts-brown-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jmts-black-grey-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jmts-black-white-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jmts-grey-black-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jomatris-black-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jomatris-brown-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jomatris-cream-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jomatris-grey-tee</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/product.html?id=jomatris-black-hoodie</loc><priority>0.8</priority></url>
+  <url><loc>https://your-real-domain.com/faq.html</loc><priority>0.4</priority></url>
+  <url><loc>https://your-real-domain.com/terms.html</loc><priority>0.2</priority></url>
+  <url><loc>https://your-real-domain.com/privacy.html</loc><priority>0.2</priority></url>
+</urlset>

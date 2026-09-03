@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | Jomatris</title>
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a0a0a;color:#fff;min-height:100vh;}
+.navbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid #141414;}
+.logo img{width:120px;height:100px;object-fit:contain;}
+.back-link{color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+.back-link:hover{color:#fff;}
+.checkout-wrap{max-width:960px;margin:0 auto;padding:48px 24px 100px;display:grid;grid-template-columns:1.3fr 1fr;gap:48px;}
+h1{font-size:1.6rem;font-weight:800;letter-spacing:1px;margin-bottom:28px;text-transform:uppercase;}
+.section{margin-bottom:32px;}
+.section h2{font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:16px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+label{display:block;font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:6px;}
+input,textarea,select{width:100%;background:#111;border:1px solid #1e1e1e;color:#eee;padding:12px 14px;font-size:0.85rem;border-radius:8px;outline:none;font-family:'Poppins',sans-serif;transition:border-color 0.2s;}
+input:focus,textarea:focus,select:focus{border-color:#444;}
+.delivery-toggle{display:flex;gap:10px;margin-bottom:16px;}
+.toggle-btn{flex:1;padding:12px;border:1px solid #1e1e1e;background:#111;color:#666;border-radius:8px;cursor:pointer;font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;font-family:'Poppins',sans-serif;transition:all 0.2s;}
+.toggle-btn.active{background:#fff;color:#000;border-color:#fff;}
+#addressField{display:none;}
+.pay-options{display:flex;flex-direction:column;gap:10px;}
+.pay-option{display:flex;align-items:flex-start;gap:12px;border:1px solid #1e1e1e;background:#111;border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color 0.2s;}
+.pay-option:hover{border-color:#333;}
+.pay-option.selected{border-color:#fff;}
+.pay-option input{width:auto;margin-top:2px;accent-color:#fff;}
+.pay-option-text strong{display:block;font-size:0.85rem;margin-bottom:3px;}
+.pay-option-text span{font-size:0.72rem;color:#555;line-height:1.5;}
+.pay-badge{font-size:0.58rem;background:#1a1a1a;color:#888;padding:2px 8px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;margin-left:6px;}
+
+.summary-box{position:sticky;top:24px;background:#0f0f0f;border:1px solid #141414;border-radius:14px;padding:24px;height:fit-content;}
+.summary-item{display:flex;gap:12px;margin-bottom:14px;align-items:center;}
+.summary-item img{width:52px;height:60px;object-fit:contain;background:#080808;border-radius:6px;padding:4px;flex-shrink:0;}
+.summary-item-info{flex:1;font-size:0.78rem;}
+.summary-item-info .name{color:#ddd;margin-bottom:2px;}
+.summary-item-info .meta{color:#555;font-size:0.72rem;}
+.summary-item-price{font-size:0.8rem;color:#ccc;}
+.summary-divider{border:none;border-top:1px solid #1a1a1a;margin:16px 0;}
+.summary-row{display:flex;justify-content:space-between;font-size:0.82rem;color:#888;margin-bottom:10px;}
+.summary-row.total{color:#fff;font-weight:700;font-size:1rem;padding-top:10px;border-top:1px solid #1a1a1a;}
+.place-order-btn{width:100%;padding:15px;background:#fff;color:#000;font-weight:700;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;margin-top:20px;font-family:'Poppins',sans-serif;transition:background 0.2s;}
+.place-order-btn:hover:not(:disabled){background:#e0e0e0;}
+.place-order-btn:disabled{background:#1a1a1a;color:#444;cursor:not-allowed;}
+.secure-note{font-size:0.68rem;color:#444;text-align:center;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:5px;}
+.secure-note svg{width:11px;height:11px;}
+.error-box{background:#2a1414;border:1px solid #4a1e1e;color:#e88;padding:12px 14px;border-radius:8px;font-size:0.8rem;margin-bottom:16px;display:none;}
+.eft-details{background:#0f0f0f;border:1px solid #1e1e1e;border-radius:10px;padding:18px;font-size:0.8rem;color:#ccc;line-height:2;display:none;margin-top:8px;}
+.eft-details strong{color:#fff;}
+@media(max-width:800px){.checkout-wrap{grid-template-columns:1fr;}.field-row{grid-template-columns:1fr;}.summary-box{position:static;}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html"><div class="logo"><img src="images/j-logo.png" alt="Jomatris"></div></a>
+  <a href="cart.html" class="back-link"><i data-lucide="arrow-left"></i> Back to Cart</a>
+</nav>
+
+<div class="checkout-wrap">
+  <div>
+    <h1>Checkout</h1>
+    <div class="error-box" id="errorBox"></div>
+
+    <form id="checkoutForm">
+      <div class="section">
+        <h2>Contact Details</h2>
+        <div class="field-row">
+          <div><label>First Name</label><input type="text" id="firstName" required></div>
+          <div><label>Last Name</label><input type="text" id="lastName" required></div>
+        </div>
+        <div class="field-row">
+          <div><label>Email</label><input type="email" id="email" required></div>
+          <div><label>Phone</label><input type="tel" id="phone" placeholder="+264 81 xxx xxxx" required></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Delivery</h2>
+        <div class="delivery-toggle">
+          <button type="button" class="toggle-btn active" data-method="delivery">Home Delivery</button>
+          <button type="button" class="toggle-btn" data-method="pickup">Store Pickup</button>
+        </div>
+        <div id="addressField" style="display:block;">
+          <label>Delivery Address</label>
+          <textarea id="address" rows="3" placeholder="Street, suburb, town/city"></textarea>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Payment Method</h2>
+        <div class="pay-options" id="payOptions">
+          <label class="pay-option selected">
+            <input type="radio" name="paymentMethod" value="dpo" checked>
+            <div class="pay-option-text">
+              <strong>Card Payment <span class="pay-badge">DPO Secure</span></strong>
+              <span>Visa / Mastercard via DPO Pay. You'll enter your card details on DPO's secure page — Jomatris never sees or stores your card number.</span>
+            </div>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="paymentMethod" value="stripe">
+            <div class="pay-option-text">
+              <strong>Card Payment (International) <span class="pay-badge">Stripe</span></strong>
+              <span>For international customers, via Stripe's secure checkout.</span>
+            </div>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="paymentMethod" value="eft">
+            <div class="pay-option-text">
+              <strong>Bank Transfer / EFT</strong>
+              <span>We'll show you our bank details and an order reference. Your order ships once payment reflects.</span>
+            </div>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="paymentMethod" value="cod">
+            <div class="pay-option-text">
+              <strong>Cash on Delivery / Pickup</strong>
+              <span>Pay in cash when your order arrives or when you collect it.</span>
+            </div>
+          </label>
+          <label class="pay-option">
+            <input type="radio" name="paymentMethod" value="whatsapp">
+            <div class="pay-option-text">
+              <strong>Order via WhatsApp</strong>
+              <span>Send your order details straight to us on WhatsApp to arrange payment directly.</span>
+            </div>
+          </label>
+        </div>
+        <div class="eft-details" id="eftDetails"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="summary-box">
+    <h2 style="font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:18px;">Order Summary</h2>
+    <div id="summaryItems"></div>
+    <hr class="summary-divider">
+    <div class="summary-row"><span>Subtotal</span><span id="sumSubtotal">N$0.00</span></div>
+    <div class="summary-row"><span>Delivery</span><span id="sumDelivery">—</span></div>
+    <div class="summary-row total"><span>Total</span><span id="sumTotal">N$0.00</span></div>
+    <button class="place-order-btn" id="placeOrderBtn">Place Order</button>
+    <p class="secure-note"><i data-lucide="lock"></i> Your card details are never stored on Jomatris servers</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const summaryItems = document.getElementById('summaryItems');
+  const errorBox = document.getElementById('errorBox');
+  const FREE_DELIVERY_THRESHOLD = 800;
+  const STANDARD_DELIVERY_FEE = 60;
+  let deliveryMethod = 'delivery';
+
+  if (cart.length === 0) {
+    window.location.href = 'cart.html';
+    return;
+  }
+
+  function render() {
+    summaryItems.innerHTML = cart.map(item => `
+      <div class="summary-item">
+        <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.style.opacity='0.3';">
+        <div class="summary-item-info">
+          <div class="name">${item.name}</div>
+          <div class="meta">${item.size ? 'Size ' + item.size + ' · ' : ''}Qty ${item.qty}</div>
+        </div>
+        <div class="summary-item-price">N$${(item.price * item.qty).toFixed(2)}</div>
+      </div>
+    `).join('');
+
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const deliveryFee = deliveryMethod === 'pickup' || subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_DELIVERY_FEE;
+    const total = subtotal + deliveryFee;
+    document.getElementById('sumSubtotal').textContent = `N$${subtotal.toFixed(2)}`;
+    document.getElementById('sumDelivery').textContent = deliveryFee === 0 ? 'Free' : `N$${deliveryFee.toFixed(2)}`;
+    document.getElementById('sumTotal').textContent = `N$${total.toFixed(2)}`;
+  }
+  render();
+
+  // Delivery toggle
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      deliveryMethod = btn.dataset.method;
+      document.getElementById('addressField').style.display = deliveryMethod === 'delivery' ? 'block' : 'none';
+      render();
+    });
+  });
+
+  // Payment option highlighting
+  document.querySelectorAll('.pay-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+    errorBox.style.display = 'none';
+    const btn = document.getElementById('placeOrderBtn');
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+    const customer = {
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      address: document.getElementById('address').value.trim(),
+      deliveryMethod,
+    };
+
+    if (!customer.firstName || !customer.lastName || !customer.email || !customer.phone) {
+      showError('Please fill in all contact details.');
+      return;
+    }
+    if (deliveryMethod === 'delivery' && !customer.address) {
+      showError('Please enter a delivery address, or switch to Store Pickup.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Processing…';
+
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer,
+          items: cart.map(i => ({ id: i.id, size: i.size, qty: i.qty })),
+          paymentMethod,
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(data.error || 'Something went wrong placing your order.');
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
+        return;
+      }
+
+      if (paymentMethod === 'eft') {
+        localStorage.removeItem('cart');
+        window.location.href = `order-confirmation.html?order=${data.order.id}&status=pending-eft`;
+        return;
+      }
+      if (paymentMethod === 'cod') {
+        localStorage.removeItem('cart');
+        window.location.href = `order-confirmation.html?order=${data.order.id}&status=pending-cod`;
+        return;
+      }
+
+      // dpo / stripe / whatsapp all return a redirectUrl
+      localStorage.removeItem('cart');
+      window.location.href = data.redirectUrl;
+    } catch (err) {
+      showError('Could not reach the server. Please check your connection and try again.');
+      btn.disabled = false;
+      btn.textContent = 'Place Order';
+    }
+  });
+
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>

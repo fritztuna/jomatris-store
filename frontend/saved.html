@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saved Items | Jomatris</title>
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<script src="products-data.js"></script>
+<script src="auth-nav.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a0a0a;color:#fff;min-height:100vh;}
+.navbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid #141414;}
+.logo img{width:120px;height:100px;object-fit:contain;}
+.back-link{color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+.back-link:hover{color:#fff;}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px 100px;}
+h1{font-size:1.5rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:32px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;}
+.card{background:#0f0f0f;border-radius:12px;padding:16px;position:relative;}
+.card img{width:100%;aspect-ratio:4/5;object-fit:contain;background:#080808;border-radius:8px;margin-bottom:12px;}
+.card h4{font-size:0.85rem;margin-bottom:4px;}
+.card .price{font-size:0.8rem;color:#999;margin-bottom:12px;}
+.card a.view-btn{display:block;text-align:center;padding:10px;background:#fff;color:#000;text-decoration:none;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-radius:6px;}
+.remove-btn{position:absolute;top:24px;right:24px;background:rgba(0,0,0,0.6);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.remove-btn svg{width:14px;height:14px;}
+.empty-state{text-align:center;padding:80px 0;color:#666;}
+.empty-state a{color:#fff;text-decoration:underline;}
+.login-prompt{text-align:center;padding:80px 0;}
+.login-prompt a{display:inline-block;margin-top:16px;padding:13px 32px;background:#fff;color:#000;text-decoration:none;font-weight:700;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:8px;}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html"><div class="logo"><img src="images/j-logo.png" alt="Jomatris"></div></a>
+  <a href="index.html#products" class="back-link"><i data-lucide="arrow-left"></i> Back to Shop</a>
+</nav>
+
+<div class="wrap">
+  <h1>Saved Items</h1>
+  <div id="content"><p style="color:#666;">Loading…</p></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  await JomatrisAuth.ready;
+  const content = document.getElementById('content');
+
+  if (!JomatrisAuth.user) {
+    content.innerHTML = `
+      <div class="login-prompt">
+        <p style="color:#888;">Log in to see the items you've saved.</p>
+        <a href="login.html?redirect=saved.html">Log In</a>
+      </div>`;
+    lucide.createIcons();
+    return;
+  }
+
+  async function render() {
+    const res = await fetch('/api/wishlist', { credentials: 'include' });
+    const data = await res.json();
+    const ids = data.productIds || [];
+
+    if (ids.length === 0) {
+      content.innerHTML = `<div class="empty-state"><p>Nothing saved yet — <a href="index.html#products">browse the shop</a> and tap the heart on anything you like.</p></div>`;
+      return;
+    }
+
+    const products = ids.map(id => window.JOMATRIS_PRODUCTS.find(p => p.id === id)).filter(Boolean);
+    content.innerHTML = `<div class="grid">${products.map(p => `
+      <div class="card" data-id="${p.id}">
+        <button class="remove-btn" aria-label="Remove"><i data-lucide="x"></i></button>
+        <a href="product.html?id=${p.id}"><img src="${p.imageBack}" alt="${p.name}" onerror="this.onerror=null;this.style.opacity='0.15';"></a>
+        <h4>${p.name}</h4>
+        <p class="price">N$${p.price.toFixed(2)}</p>
+        <a href="product.html?id=${p.id}" class="view-btn">View</a>
+      </div>
+    `).join('')}</div>`;
+
+    document.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.closest('.card').dataset.id;
+        await JomatrisAuth.toggleWishlist(id);
+        render();
+      });
+    });
+    lucide.createIcons();
+  }
+
+  render();
+});
+</script>
+</body>
+</html>

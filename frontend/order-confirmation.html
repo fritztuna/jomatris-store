@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation | Jomatris</title>
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a0a0a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{max-width:480px;width:100%;background:#0f0f0f;border:1px solid #1a1a1a;border-radius:16px;padding:48px 36px;text-align:center;}
+.icon-circle{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;}
+.icon-circle.paid{background:#123a1e;}
+.icon-circle.pending{background:#1e1e10;}
+.icon-circle.error{background:#3a1414;}
+.icon-circle svg{width:34px;height:34px;}
+.icon-circle.paid svg{stroke:#4caf50;}
+.icon-circle.pending svg{stroke:#e0b93a;}
+.icon-circle.error svg{stroke:#e05555;}
+h1{font-size:1.3rem;font-weight:800;letter-spacing:0.5px;margin-bottom:12px;}
+p{color:#888;font-size:0.85rem;line-height:1.7;margin-bottom:8px;}
+.ref{display:inline-block;background:#181818;padding:8px 18px;border-radius:8px;font-size:0.8rem;color:#ccc;letter-spacing:1px;margin:16px 0;}
+.eft-box{text-align:left;background:#141414;border-radius:10px;padding:18px 20px;font-size:0.8rem;color:#ccc;line-height:2;margin:20px 0;}
+.eft-box strong{color:#fff;}
+.btn{display:inline-block;margin-top:16px;padding:13px 32px;background:#fff;color:#000;text-decoration:none;font-weight:700;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:8px;}
+.btn:hover{background:#e0e0e0;}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <p>Loading…</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get('order');
+  const status = params.get('status');
+  const card = document.getElementById('card');
+
+  function render({ iconClass, iconName, title, message, order, extra }) {
+    card.innerHTML = `
+      <div class="icon-circle ${iconClass}"><i data-lucide="${iconName}"></i></div>
+      <h1>${title}</h1>
+      <p>${message}</p>
+      ${order ? `<div class="ref">Order ${order.reference}</div>` : ''}
+      ${extra || ''}
+      <a href="index.html#products" class="btn">Continue Shopping</a>
+    `;
+    lucide.createIcons();
+  }
+
+  if (!orderId) {
+    render({ iconClass: 'error', iconName: 'x-circle', title: 'Something went wrong', message: "We couldn't find that order." });
+    return;
+  }
+
+  let order = null;
+  try {
+    const res = await fetch(`/api/checkout/orders/${orderId}`);
+    if (res.ok) order = await res.json();
+  } catch { /* ignore, handled below */ }
+
+  if (status === 'paid') {
+    render({ iconClass: 'paid', iconName: 'check-circle', title: 'Payment Successful', message: `Thanks${order ? ', ' + order.customer.firstName : ''}! Your order is confirmed and we're getting it ready.`, order });
+  } else if (status === 'pending-eft') {
+    const bank = order ? `
+      <div class="eft-box">
+        <strong>Bank Transfer Details</strong><br>
+        Use your order reference as the payment reference so we can match your transfer.
+      </div>` : '';
+    render({ iconClass: 'pending', iconName: 'clock', title: 'Order Placed — Awaiting Payment', message: 'Please complete your bank transfer using the reference below. We\'ll confirm and ship once payment reflects.', order, extra: bank });
+  } else if (status === 'pending-cod') {
+    render({ iconClass: 'pending', iconName: 'clock', title: 'Order Placed', message: 'Your order is confirmed for cash on delivery/pickup. We\'ll be in touch to arrange the details.', order });
+  } else if (status === 'failed') {
+    render({ iconClass: 'error', iconName: 'x-circle', title: 'Payment Not Completed', message: 'Your payment didn\'t go through. No charge was made — you can try again from your cart.', order });
+  } else {
+    render({ iconClass: 'error', iconName: 'alert-circle', title: 'We hit a snag', message: 'We couldn\'t confirm your payment status. If you were charged, please contact us with your order reference.', order });
+  }
+});
+</script>
+</body>
+</html>

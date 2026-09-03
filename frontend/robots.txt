@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# TODO: once this site is deployed to a real domain, uncomment the line below
+# and point it at that domain so search engines can find the sitemap.
+# Sitemap: https://your-real-domain.com/sitemap.xml

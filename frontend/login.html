@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In | Jomatris</title>
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a0a0a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.navbar{position:fixed;top:0;left:0;right:0;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid #141414;background:#0a0a0a;}
+.logo img{width:120px;height:100px;object-fit:contain;}
+.back-link{color:#666;text-decoration:none;font-size:0.78rem;letter-spacing:1px;display:flex;align-items:center;gap:6px;}
+.back-link:hover{color:#fff;}
+.card{max-width:400px;width:100%;background:#0f0f0f;border:1px solid #1a1a1a;border-radius:16px;padding:40px 32px;}
+h1{font-size:1.3rem;font-weight:800;letter-spacing:0.5px;margin-bottom:6px;text-transform:uppercase;text-align:center;}
+.subtitle{text-align:center;color:#666;font-size:0.8rem;margin-bottom:28px;}
+label{display:block;font-size:0.68rem;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:6px;}
+input{width:100%;background:#111;border:1px solid #1e1e1e;color:#eee;padding:12px 14px;font-size:0.85rem;border-radius:8px;outline:none;font-family:'Poppins',sans-serif;margin-bottom:16px;}
+input:focus{border-color:#444;}
+.submit-btn{width:100%;padding:14px;background:#fff;color:#000;font-weight:700;font-size:0.78rem;letter-spacing:1.5px;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;font-family:'Poppins',sans-serif;transition:background 0.2s;}
+.submit-btn:hover:not(:disabled){background:#e0e0e0;}
+.submit-btn:disabled{background:#1a1a1a;color:#444;cursor:not-allowed;}
+.toggle-line{text-align:center;font-size:0.78rem;color:#666;margin-top:20px;}
+.toggle-line a{color:#ccc;text-decoration:underline;cursor:pointer;}
+.error-box{background:#2a1414;border:1px solid #4a1e1e;color:#e88;padding:10px 14px;border-radius:8px;font-size:0.78rem;margin-bottom:16px;display:none;}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html"><div class="logo"><img src="images/j-logo.png" alt="Jomatris"></div></a>
+  <a href="index.html" class="back-link"><i data-lucide="arrow-left"></i> Back to Shop</a>
+</nav>
+
+<div class="card">
+  <h1 id="formTitle">Log In</h1>
+  <p class="subtitle" id="formSubtitle">Welcome back to Jomatris</p>
+  <div class="error-box" id="errorBox"></div>
+
+  <form id="authForm">
+    <div id="nameField" style="display:none;">
+      <label>Name</label>
+      <input type="text" id="nameInput" autocomplete="name">
+    </div>
+    <label>Email</label>
+    <input type="email" id="emailInput" autocomplete="email" required>
+    <label>Password</label>
+    <input type="password" id="passwordInput" autocomplete="current-password" required>
+    <button type="submit" class="submit-btn" id="submitBtn">Log In</button>
+  </form>
+
+  <p class="toggle-line" id="toggleLine">Don't have an account? <a id="toggleLink">Sign up</a></p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let mode = 'login'; // or 'signup'
+  const form = document.getElementById('authForm');
+  const errorBox = document.getElementById('errorBox');
+  const submitBtn = document.getElementById('submitBtn');
+  const nameField = document.getElementById('nameField');
+  const nameInput = document.getElementById('nameInput');
+  const passwordInput = document.getElementById('passwordInput');
+
+  const params = new URLSearchParams(window.location.search);
+  const redirectTo = params.get('redirect') || 'index.html';
+
+  function setMode(newMode) {
+    mode = newMode;
+    errorBox.style.display = 'none';
+    if (mode === 'signup') {
+      document.getElementById('formTitle').textContent = 'Create Account';
+      document.getElementById('formSubtitle').textContent = 'Save items and track orders faster';
+      nameField.style.display = 'block';
+      nameInput.required = true;
+      passwordInput.autocomplete = 'new-password';
+      submitBtn.textContent = 'Sign Up';
+      document.getElementById('toggleLine').innerHTML = 'Already have an account? <a id="toggleLink">Log in</a>';
+    } else {
+      document.getElementById('formTitle').textContent = 'Log In';
+      document.getElementById('formSubtitle').textContent = 'Welcome back to Jomatris';
+      nameField.style.display = 'none';
+      nameInput.required = false;
+      passwordInput.autocomplete = 'current-password';
+      submitBtn.textContent = 'Log In';
+      document.getElementById('toggleLine').innerHTML = "Don't have an account? <a id=\"toggleLink\">Sign up</a>";
+    }
+    document.getElementById('toggleLink').addEventListener('click', () => setMode(mode === 'login' ? 'signup' : 'login'));
+  }
+  document.getElementById('toggleLink').addEventListener('click', () => setMode('signup'));
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = mode === 'login' ? 'Logging in…' : 'Creating account…';
+
+    const body = {
+      email: document.getElementById('emailInput').value.trim(),
+      password: passwordInput.value,
+    };
+    if (mode === 'signup') body.name = nameInput.value.trim();
+
+    try {
+      const res = await fetch(`/api/auth/${mode}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        errorBox.textContent = data.error || 'Something went wrong.';
+        errorBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = mode === 'login' ? 'Log In' : 'Sign Up';
+        return;
+      }
+      window.location.href = redirectTo;
+    } catch {
+      errorBox.textContent = 'Could not reach the server. Please try again.';
+      errorBox.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = mode === 'login' ? 'Log In' : 'Sign Up';
+    }
+  });
+
+  if (params.get('mode') === 'signup') setMode('signup');
+  lucide.createIcons();
+});
+</script>
+</body>
+</html>
